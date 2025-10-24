@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSocket } from '../context/SocketContext';
 import { motion, AnimatePresence } from 'framer-motion';
+import { API_ENDPOINTS } from '../config/api';
 import './LiveScoreboard.css';
 
 interface LiveMatch {
@@ -82,7 +83,7 @@ const LiveScoreboard: React.FC = () => {
   const fetchLiveMatches = async () => {
     try {
       console.log('Fetching live matches...');
-      const response = await fetch('http://localhost:5000/api/matches/live');
+      const response = await fetch(API_ENDPOINTS.LIVE_MATCHES);
       const data = await response.json();
       console.log('Live matches response:', data);
       if (data.success) {

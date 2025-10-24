@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { API_ENDPOINTS } from '../config/api';
 import './Register.css';
 
 const Register: React.FC = () => {
@@ -46,7 +47,7 @@ const Register: React.FC = () => {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/users/register', {
+      const response = await fetch(API_ENDPOINTS.REGISTER, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

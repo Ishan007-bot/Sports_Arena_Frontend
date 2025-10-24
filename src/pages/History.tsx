@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import { API_ENDPOINTS } from '../config/api';
 import './History.css';
 
 const History: React.FC = () => {
@@ -15,7 +16,7 @@ const History: React.FC = () => {
   const fetchMatches = async () => {
     try {
       console.log('Fetching matches for history...');
-      const response = await fetch('http://localhost:5000/api/matches');
+      const response = await fetch(API_ENDPOINTS.MATCHES);
       const data = await response.json();
       console.log('All matches received:', data);
       
@@ -143,7 +144,7 @@ const History: React.FC = () => {
 
     setDeletingMatch(matchId);
     try {
-      const response = await fetch(`http://localhost:5000/api/matches/${matchId}`, {
+      const response = await fetch(API_ENDPOINTS.MATCH_BY_ID(matchId), {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

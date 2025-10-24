@@ -4,6 +4,7 @@ import { useSocket } from '../../context/SocketContext';
 import Timer from '../../components/Timer';
 import MatchSettings from '../../components/MatchSettings';
 import TeamPlayerNamesModal from '../../components/TeamPlayerNamesModal';
+import { API_ENDPOINTS } from '../../config/api';
 import './BasketballArena.css';
 
 const BasketballArena: React.FC = () => {
@@ -35,7 +36,7 @@ const BasketballArena: React.FC = () => {
   useEffect(() => {
     const loadExistingMatch = async () => {
       try {
-        const response = await fetch('http://localhost:5000/api/matches/live');
+        const response = await fetch(API_ENDPOINTS.LIVE_MATCHES);
         const data = await response.json();
         if (data.success && data.data.length > 0) {
           const basketballMatch = data.data.find((match: any) => match.sport === 'basketball');
@@ -61,7 +62,7 @@ const BasketballArena: React.FC = () => {
       console.log('Starting polling for basketball match:', match._id);
       const pollInterval = setInterval(async () => {
         try {
-          const response = await fetch(`http://localhost:5000/api/matches/${match._id}`);
+          const response = await fetch(API_ENDPOINTS.MATCH_BY_ID(match._id));
           const data = await response.json();
           if (data.success && data.data.basketballScore) {
             console.log('Basketball polling update received:', data.data.basketballScore);
@@ -87,7 +88,7 @@ const BasketballArena: React.FC = () => {
     // Send timer update to backend
     if (match?._id) {
       try {
-        await fetch(`http://localhost:5000/api/matches/${match._id}/score`, {
+        await fetch(API_ENDPOINTS.MATCH_SCORE(match._id), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -173,7 +174,7 @@ const BasketballArena: React.FC = () => {
 
     // Update score in database
     try {
-      const response = await fetch(`http://localhost:5000/api/matches/${match._id}/score`, {
+      const response = await fetch(API_ENDPOINTS.MATCH_SCORE(match._id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -213,7 +214,7 @@ const BasketballArena: React.FC = () => {
 
     try {
       // First create a match in the database
-      const createResponse = await fetch('http://localhost:5000/api/matches', {
+      const createResponse = await fetch(API_ENDPOINTS.MATCHES, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -233,7 +234,7 @@ const BasketballArena: React.FC = () => {
         setMatch(matchData.data);
         
         // Now start the match
-        const startResponse = await fetch(`http://localhost:5000/api/matches/${matchData.data._id}/start`, {
+        const startResponse = await fetch(API_ENDPOINTS.MATCH_START(matchData.data._id), {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -255,7 +256,7 @@ const BasketballArena: React.FC = () => {
     console.log('Ending basketball match:', match._id);
     
     try {
-      const response = await fetch(`http://localhost:5000/api/matches/${match._id}/end`, {
+      const response = await fetch(API_ENDPOINTS.MATCH_END(match._id), {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
