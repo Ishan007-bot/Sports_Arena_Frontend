@@ -50,7 +50,7 @@
 .form-group label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #000000;
+  color: #000000 !important;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -58,12 +58,12 @@
 .form-group input {
   width: 100%;
   padding: 1rem;
-  border: 2px solid #e1e8ed;
+  border: 2px solid lightgray !important;
   border-radius: 10px;
   font-size: 1rem;
   transition: all 0.3s ease;
   background: #fff;
-  color: #000000;
+  color: #000000 !important;
 }
 
 .form-group input:focus {
